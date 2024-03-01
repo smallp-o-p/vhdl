@@ -9,7 +9,7 @@ end TFlipFlop;
 architecture rtl of TFlipFlop is
 signal int_q, int_qBar : std_logic;
 begin 
-	d: work.ASetDFlipFlop(rtl)
+	d: work.ASetDFF(rtl)
 		port map(
 				i_clk => in_clk, 
 				in_d => T xor int_q,

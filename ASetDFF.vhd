@@ -1,13 +1,13 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL; 
 
-ENTITY ASetDFlipFlop IS 
+ENTITY ASetDFF IS 
 	PORT(
 		i_clk, in_d, i_DASet, i_DAReset : IN STD_LOGIC;
 		out_q, out_qBar : OUT STD_LOGIC);
-END ASetDFlipFlop;
+END ASetDFF;
 
-ARCHITECTURE rtl of ASetDFlipFlop IS
+ARCHITECTURE rtl of ASetDFF IS
 	SIGNAL int_q, int_qBar : STD_LOGIC;
 	SIGNAL int_s, int_r, int_top, int_bottom : STD_LOGIC; 
 BEGIN 

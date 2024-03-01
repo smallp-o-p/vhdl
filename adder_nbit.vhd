@@ -1,13 +1,14 @@
 library ieee;
 use ieee.std_logic_1164.all; 
 
-entity FullAdder is 
-    port(a, b, c_in : in std_logic; 
+entity fadder is 
+    port(
+        a, b, c_in : in std_logic; 
         c_out, s_out : out std_logic
     );
-end FullAdder;
+end fadder;
 
-architecture rtl of FullAdder is
+architecture rtl of fadder is
 begin 
     s_out <= c_in xor (a xor b);
     c_out <= ((a xor b) and c_in) or (a and b); 
@@ -16,33 +17,34 @@ end rtl;
 library ieee; 
 use ieee.std_logic_1164.all; 
 
-entity nBitAdder is 
+entity adder_nbit is 
 generic(data_width : integer := 8);
-    port(a_in, b_in : in std_logic_vector(data_width-1 downto 0); 
+    port(
+        a_in, b_in : in std_logic_vector(data_width-1 downto 0); 
         subtract : in std_logic; 
         c_out, overflow_out : out std_logic;
         s_out : out std_logic_vector(data_width-1 downto 0));
-end nBitAdder; 
+end adder_nbit; 
 
-architecture rtl of nBitAdder is 
+architecture rtl of adder_nbit is 
 signal carries : std_logic_vector(data_width-1 downto 0);
 begin 
-	fa_lsb: entity work.FullAdder(rtl)
+	fa_lsb: entity work.fadder(rtl)
         port map(
-            a=> a_in(0),
-            b=> (b_in(0) xor subtract),
-            c_in => subtract, 
-            s_out => s_out(0),
-            c_out => carries(0)
+            a       => a_in(0),
+            b       => (b_in(0) xor subtract),
+            c_in    => subtract, 
+            s_out   => s_out(0),
+            c_out   => carries(0)
         );
 	gen: for i in 1 to data_width-1 generate
-		foo: entity work.FullAdder(rtl)
+		foo: entity work.fadder(rtl)
             port map(
-                a=> a_in(i),
-                b => (b_in(i) xor subtract),
-                c_in => carries(i-1),
-                s_out => s_out(i),
-                c_out => carries(i)
+                a       => a_in(i),
+                b       => (b_in(i) xor subtract),
+                c_in    => carries(i-1),
+                s_out   => s_out(i),
+                c_out   => carries(i)
             );
 	end generate; 
 	
